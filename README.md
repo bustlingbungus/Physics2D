@@ -36,4 +36,4 @@ Being python this should be very simple
 - Python compiler
 - pygame
 
-With pygame and all the included installed, simply compile and run main.py
+With pygame and all the included files installed, simply compile and run main.py
