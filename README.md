@@ -23,10 +23,10 @@ This is a simple simulation of 2D physics for a simple system of elastic collisi
 This is intended for use in a workshop, essentially an hour long presentation teaching new to intermediate programmers how to create something like this. 
 
 Operates using the formula for elastic collisions: 
-### ```m1v1i + m2v2i = m1v1f + m2v2f```
+### ```m<sub>1<\subv<sub>1i<\sub + m<sub>2<\subv<sub>2i<\sub = m<sub>1<\subv<sub>1f<\sub + m<sub>2<\subv<sub>2f<\sub```
 
 For simplicity, this program assumes all objects have a mass of 1, meaning the elastic collision formula becomes
-### ```v1i + v2i = v1f + v2f```
+### ```v<sub>1i<\sub> + v<sub>2i<\sub> = v<sub>1f<\sub> + v<sub>2f<\sub>```
 
 What this essentially means is that when two objects collide in this simulation, they swap velocities.
 
