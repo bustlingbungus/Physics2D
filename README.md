@@ -19,7 +19,7 @@ chunks or anything like that, it would get too complicated for the workshop T-T)
 
 ## 2D Pyshics Workshop
 
-This is a simple simulation of 2D physics for a simple system of elastic collision between spheres.
+This is a simple simulation of 2D physics for a system of elastic collision between spheres.
 This is intended for use in a workshop, essentially an hour long presentation teaching new to intermediate programmers how to create something like this. 
 
 Operates using the formula for elastic collisions: 
