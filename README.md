@@ -30,6 +30,11 @@ For simplicity, this program assumes all objects have a mass of 1, meaning the e
 
 What this essentially means is that when two objects collide in this simulation, they swap velocities.
 
+## Controls
+Left clicking will create a new physics object centred at the mouse every frame left mouse is held. 
+Right clicking will delete all physics objects within a certain radius of the mouse every frame right mouse is held.
+The arrow keys can be used to change the direction of gravity. Press ```return``` to toggle gravity on/off.
+
 ## Build instructions
 Being python this should be very simple
 ### Dependencies
