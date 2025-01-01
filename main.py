@@ -1,16 +1,32 @@
 import pygame, sys
-from Classes import Vector2, Ball, GRAVITY_STRENGTH, BALL_COLOR, BALL_RADIUS, BACKGROUND_COLOR, BRUSH_SIZE
+# Import the classes we've made 
+from Classes import Vector2, Ball
 
-pygame.init()
+pygame.init() # turn on pygame
 
+# Variables to track mouse buttons
 left_mouseDown = False
 right_mouseDown = False
 
+
+# CONSTANT SIMULATION VARIABLES
+
+# Gravity direction and magnitude
+GRAVITY_STRENGTH = 0.1
 gravity = Vector2(0, GRAVITY_STRENGTH)
 
+# Colour variables 
+BALL_COLOR = "blue"
+BACKGROUND_COLOR = "white"
+
+# The radius of each ball and the brush to remove them
+BALL_RADIUS = 20
+BRUSH_SIZE = 20
+
+# Window dimensions. Set up the window, a font, and a clock
 WIDTH, HEIGHT = 720, 720
-FONT = pygame.font.SysFont("Satoshi-Variable.ttf", int(WIDTH/20))
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
+FONT = pygame.font.SysFont("Satoshi-Variable.ttf", int(WIDTH/20))
 CLOCK = pygame.time.Clock()
 
 # update all physics objects
@@ -19,10 +35,10 @@ def update_objects(objects):
     for ball in objects:
         ball.update(objects, gravity)
         # render the ball by drawing a circle, with reference to the ball's variables
-        pygame.draw.circle(WINDOW, BALL_COLOR, (ball.pos.x, ball.pos.y), ball.radius, 1)
+        pygame.draw.circle(WINDOW, ball.color, (ball.pos.x, ball.pos.y), ball.radius, 1)
         
 
-# change globar variables according to user input
+# change global variables according to user input
 def get_input(event):
     # declare external variables
     global left_mouseDown, right_mouseDown, gravity
@@ -49,36 +65,58 @@ def get_input(event):
             gravity = Vector2(0, 0)
 
 
-quit = False
+
+quit_app = False
+# This array will contain all balls in the simulation
 objects = []
 
-while (not quit):
+# Main simulation loop
+while (not quit_app):
+    
+    # Handle input
     for event in pygame.event.get():
+        # Exit when you press the X
         if event.type == pygame.QUIT:
-            pygame.quit()
-            sys.exit()
+            quit_app = True
         else:
+            # Call the get input function for other inputs
             get_input(event)
-            
+    
+    # Fill the window with a solid colour
     WINDOW.fill(BACKGROUND_COLOR)
     
+    # When pressing left mouse, spawn a ball on the mouse
     if left_mouseDown:
+        # Find the mouse's position
         mousex, mousey = pygame.mouse.get_pos()
+        # Spawn in a new ball at (mousex, mousey)
         ball = Ball(mousex, mousey, BALL_RADIUS, WIDTH, HEIGHT, BALL_COLOR)
+        # Add the ball to the array
         objects.append(ball)
-        
+    
+    # When pressing right mouse, remove balls nearby the cursor
     if right_mouseDown:
+        # Find the mouse's positoin
         mousex, mousey = pygame.mouse.get_pos()
+        # Check every ball in the array 
         for ball in objects:
-            dx, dy = ball.pos.x - mousex, ball.pos.y - mousey
-            disp = Vector2(dx, dy)
+            # Convert the mouse position to a Vector2, and find the displacement from the current ball
+            disp = ball.pos - Vector2(mousex, mousey)
+            # If the cursor is close enough to the ball, remove it from the array
             if disp.length() < ball.radius+BRUSH_SIZE:
                 objects.remove(ball)
-                
+    
+    # Update all the objects
     update_objects(objects)
     
+    # Display object count
     object_count_text = FONT.render(f"{len(objects)} objects", True, "black")
     WINDOW.blit(object_count_text, (5, 5))
 
+    # Update the window
     pygame.display.update()
     CLOCK.tick(300)
+    
+# Close the application when the main loop exits
+pygame.quit()
+sys.exit()
