@@ -26,7 +26,7 @@ BRUSH_SIZE = 20
 # Window dimensions. Set up the window, a font, and a clock
 WIDTH, HEIGHT = 720, 720
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
-FONT = pygame.font.SysFont("Satoshi-Variable.ttf", int(WIDTH/20))
+FONT = pygame.font.SysFont(None, int(WIDTH/20))
 CLOCK = pygame.time.Clock()
 
 # update all physics objects
