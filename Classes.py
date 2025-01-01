@@ -31,33 +31,33 @@ class Vector2:
     def __mul__(self, k):
         return Vector2(self.x * k, self.y * k)
     
+    def print(self):
+        print(f'{self.x}\t{self.y}')
+    
 BOUNCE_COEFF = 0.9
-GRAVITY_STRENGTH = 0.2
+GRAVITY_STRENGTH = 0.1
 BALL_RADIUS = 20
 BRUSH_SIZE = 20
 
 BALL_COLOR = "blue"
 BACKGROUND_COLOR = "white"
 
-gravity = Vector2(0, GRAVITY_STRENGTH)
-
 class Ball:
-    def __init__(self, x, y, radius, wndWidth, wndHeight, color):
-        self.pos = Vector2(x, y)
-        self.acceleration = gravity
-        self.wndWidth, self.wndHeight = wndWidth, wndHeight
-        self.color = color
-        self.radius = radius
-        
+    
     pos = Vector2(0, 0) 
     velocity = Vector2(0, 0)
     acceleration = Vector2(0, 0)
     radius = 0
     wndWidth, wndHeight = 0, 0
     color = "blue"
+        
+    def __init__(self, x, y, radius, wndWidth, wndHeight, color):
+        self.pos = Vector2(x, y)
+        self.wndWidth, self.wndHeight = wndWidth, wndHeight
+        self.color = color
+        self.radius = radius
 
-
-    def update(self, objects):
+    def update(self, objects, gravity):
         for ball in objects:
             self.collide_with_ball(ball)
         self.collide_with_borders()
@@ -82,7 +82,7 @@ class Ball:
             self.pos.y = self.wndHeight-r
             self.velocity.y *= -BOUNCE_COEFF
             
-    def collide_with_ball(self, other : "Ball"):
+    def collide_with_ball(self, other):
         disp = other.pos - self.pos
         
         r = self.radius + other.radius

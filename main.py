@@ -1,52 +1,53 @@
 import pygame, sys
-from Classes import Vector2, Ball, GRAVITY_STRENGTH, BALL_COLOR, BALL_RADIUS, gravity, BACKGROUND_COLOR, BRUSH_SIZE
+from Classes import Vector2, Ball, GRAVITY_STRENGTH, BALL_COLOR, BALL_RADIUS, BACKGROUND_COLOR, BRUSH_SIZE
 
 pygame.init()
 
 left_mouseDown = False
 right_mouseDown = False
 
-WIDTH, HEIGHT = 540, 540
+gravity = Vector2(0, GRAVITY_STRENGTH)
+
+WIDTH, HEIGHT = 720, 720
 FONT = pygame.font.SysFont("Satoshi-Variable.ttf", int(WIDTH/20))
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 CLOCK = pygame.time.Clock()
 
-
+# update all physics objects
 def update_objects(objects):
+    # for each ball in the array, update the object, the render it ot the screen
     for ball in objects:
-        ball.update(objects)
-        pygame.draw.circle(WINDOW, "blue", (ball.pos.x, ball.pos.y), ball.radius, 1)
+        ball.update(objects, gravity)
+        # render the ball by drawing a circle, with reference to the ball's variables
+        pygame.draw.circle(WINDOW, BALL_COLOR, (ball.pos.x, ball.pos.y), ball.radius, 1)
         
-        
+
+# change globar variables according to user input
 def get_input(event):
+    # declare external variables
     global left_mouseDown, right_mouseDown, gravity
-    if event.type == pygame.MOUSEBUTTONDOWN:
-        mouse_buttons = pygame.mouse.get_pressed()
-        if mouse_buttons[0]:
-            left_mouseDown = True
-        elif mouse_buttons[2]:
-            right_mouseDown = True
-    elif event.type  == pygame.MOUSEBUTTONUP:
-        mouse_buttons = pygame.mouse.get_pressed()
-        if not mouse_buttons[0]:
-            left_mouseDown = False
-        # i am not sure why this is not working
-        elif not mouse_buttons[2]:
-            right_mouseDown = False
     
+    # update mouse variables when the mouse is pressed or released
+    if event.type == pygame.MOUSEBUTTONDOWN or event.type == pygame.MOUSEBUTTONUP:
+        # get an array of all the mouse buttons
+        mouse_buttons = pygame.mouse.get_pressed()
+        # update variables 
+        left_mouseDown = mouse_buttons[0]
+        right_mouseDown = mouse_buttons[2]
     
-    keys_pressed = pygame.key.get_pressed()
-    if keys_pressed[pygame.K_UP]:
-        gravity = Vector2(0, -GRAVITY_STRENGTH)
-    elif keys_pressed[pygame.K_DOWN]:
-        gravity = Vector2(0, GRAVITY_STRENGTH)
-    elif keys_pressed[pygame.K_LEFT]:
-        gravity = Vector2(-GRAVITY_STRENGTH, 0)
-    elif keys_pressed[pygame.K_RIGHT]:
-        gravity = Vector2(GRAVITY_STRENGTH, 0)
-    elif keys_pressed[pygame.K_RETURN]:
-        gravity = Vector2(0, 0)
-        
+    # alter gravity when a key is pressed 
+    elif event.type == pygame.KEYDOWN:
+        if event.key == pygame.K_UP:
+            gravity = Vector2(0, -GRAVITY_STRENGTH)
+        elif event.key == pygame.K_DOWN:
+            gravity = Vector2(0, GRAVITY_STRENGTH)
+        elif event.key == pygame.K_LEFT:
+            gravity = Vector2(-GRAVITY_STRENGTH, 0)
+        elif event.key == pygame.K_RIGHT:
+            gravity = Vector2(GRAVITY_STRENGTH, 0)
+        elif event.key == pygame.K_RETURN:
+            gravity = Vector2(0, 0)
+
 
 quit = False
 objects = []
