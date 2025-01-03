@@ -28,15 +28,11 @@ class Vector2:
     
     # Subtract the other vector's x and y components from this one
     def __isub__(self, other):
-        self.x -= other.x
-        self.y -= other.y
-        return self
+        return Vector2(self.x - other.x, self.y - other.y)
     
     # Add the other vector's x and y components to this one
     def __iadd__(self, other):
-        self.x += other.x
-        self.y += other.y
-        return self    
+        return Vector2(self.x + other.x, self.y + other.y)
         
     # Return x and y multiplied by k
     def __mul__(self, k):
@@ -94,7 +90,7 @@ class Ball:
             self.velocity.y *= -BOUNCE_COEFF
     
     
-    # Handles collision with another ball by pushing them aprt and swapping their velocities
+    # Handles collision with another ball by pushing them apart and swapping their velocities
     def collide_with_ball(self, other):
         # Find the displacement between the two balls
         disp = other.pos - self.pos
